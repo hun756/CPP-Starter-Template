@@ -26,5 +26,7 @@ add_library(${PROJECT_NAME} ${SOURCES})
 add_executable(${PROJECT_NAME}_exe src/main.cpp)
 target_link_libraries(${PROJECT_NAME}_exe PRIVATE ${PROJECT_NAME})
 
+add_subdirectory(examples)
+
 enable_testing()
 add_subdirectory(test)
