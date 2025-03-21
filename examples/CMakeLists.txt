@@ -7,6 +7,12 @@ foreach(example_source ${EXAMPLE_SOURCES})
     
     target_link_libraries(${example_name} 
         PRIVATE 
-        ${PROJECT_NAME}
+        ${PROJECT_NAME}::${PROJECT_NAME}
     )
+    
+    target_compile_warnings(${example_name} PRIVATE)
+
+    if(ENABLE_SANITIZERS)
+        target_enable_sanitizers(${example_name})
+    endif()
 endforeach()
