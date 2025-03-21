@@ -101,7 +101,7 @@ xcuserdata/
 
 ### Documentation ###
 # Doxygen
-[Dd]ocs/
+#[Dd]ocs/
 doxygen*/
 html/
 latex/
