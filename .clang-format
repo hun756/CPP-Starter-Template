@@ -1,108 +1,761 @@
-Language:        Cpp
-BasedOnStyle:  Microsoft
-AccessModifierOffset: -4 # -2
+# =============================================================================
+# PROFESSIONAL C++ CLANG-FORMAT CONFIGURATION
+# =============================================================================
+# 
+# This configuration provides a comprehensive, professional code formatting
+# standard for C++ projects. It is based on Microsoft's coding style with
+# enhanced settings for enterprise-level development.
+#
+# Version: 2.0
+# Date: July 18, 2025
+# Compatible with: Clang-Format 15.0+
+# Language: C++20 Standard
+#
+# Key Features:
+# - Consistent 100-column line limit for modern displays
+# - 4-space indentation (no tabs) for universal compatibility
+# - Comprehensive include organization with priority system
+# - Strict alignment rules for professional appearance
+# - Enhanced brace wrapping for maximum readability
+# - Optimized penalty system for intelligent line breaking
+#
+# =============================================================================
+
+# Base language and style foundation
+Language: Cpp
+BasedOnStyle: Microsoft
+
+# =============================================================================
+# ALIGNMENT AND SPACING CONFIGURATION
+# =============================================================================
+# Controls how various code elements are aligned to create clean, readable code
+
+# Access modifier positioning (private, public, protected)
+# Negative offset creates a visual hierarchy by outdenting access modifiers
+AccessModifierOffset: -4
+
+# Bracket alignment strategy for function calls and declarations
+# 'Align' ensures parameters line up perfectly under the opening bracket
 AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
+
+# Consecutive assignment alignment - disabled for natural code flow
+# When enabled, this would align all assignment operators in consecutive lines
+AlignConsecutiveAssignments:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: true
+
+# Consecutive declarations alignment - disabled to prevent artificial spacing
+# Would align variable names in consecutive declarations if enabled
+AlignConsecutiveDeclarations:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  PadOperators: false
+
+# Macro definitions alignment - enabled for preprocessor clarity
+# Aligns the values of consecutive #define statements for better readability
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+  AlignCompound: false
+  PadOperators: false
+
+# Bit field alignment for struct/class bit field declarations
+# Ensures consistent spacing in bit field definitions
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true
+  AlignCompound: false
+  PadOperators: false
+
+# Escaped newline alignment in multiline macros
+# 'Right' places all backslashes at the same column for clean macro definitions
 AlignEscapedNewlines: Right
-AlignOperands:   true
-AlignTrailingComments: true
-AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: false
+
+# Binary operator alignment for wrapped expressions
+# 'Align' ensures operators line up when expressions span multiple lines
+AlignOperands: Align
+
+# Trailing comment alignment configuration
+# Ensures inline comments start at consistent positions
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 0
+
+# Array initialization alignment for struct arrays
+# 'Right' provides the most readable format for array initializers
+AlignArrayOfStructures: Right
+
+# =============================================================================
+# LINE BREAKING AND WRAPPING CONFIGURATION
+# =============================================================================
+# Defines when and how code should wrap to maintain readability
+
+# Parameter declaration wrapping - disabled for consistency
+# Forces each parameter to its own line when wrapping occurs
+AllowAllParametersOfDeclarationOnNextLine: false
+
+# Function argument wrapping - disabled for readability
+# Prevents all arguments from being placed on a single wrapped line
+AllowAllArgumentsOnNextLine: false
+
+# Constructor initializer wrapping - disabled for clarity
+# Ensures constructor initializers follow consistent formatting rules
+AllowAllConstructorInitializersOnNextLine: false
+
+# Single-line block restrictions
+# 'Never' ensures all blocks use proper bracing for debugging and clarity
+AllowShortBlocksOnASingleLine: Never
+
+# Case label formatting - prevents compressed switch statements
 AllowShortCaseLabelsOnASingleLine: false
-AllowShortFunctionsOnASingleLine: All
-AllowShortIfStatementsOnASingleLine: false
+
+# Enum formatting - prevents compressed enum definitions
+AllowShortEnumsOnASingleLine: false
+
+# Function definition formatting - 'Empty' allows only truly empty functions
+# on a single line (e.g., default constructors)
+AllowShortFunctionsOnASingleLine: Empty
+
+# Conditional statement formatting - 'Never' ensures all if statements
+# use proper block structure for maintainability
+AllowShortIfStatementsOnASingleLine: Never
+
+# Lambda expression formatting - 'Empty' allows only empty lambda bodies
+# on single lines to maintain consistency with function formatting
+AllowShortLambdasOnASingleLine: Empty
+
+# Loop statement formatting - prevents compressed loop structures
 AllowShortLoopsOnASingleLine: false
+
+# Return type breaking for function definitions
+# 'None' keeps return types with function names when possible
 AlwaysBreakAfterDefinitionReturnType: None
+
+# Return type breaking for function declarations
+# Maintains consistency with definition formatting
 AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: true # false
-BinPackArguments: true
-BinPackParameters: true
-BraceWrapping:   
-  AfterClass:      true # false
-  AfterControlStatement: true # false
-  AfterEnum:       true # false
-  AfterFunction:   true # false
-  AfterNamespace:  true # false
-  AfterObjCDeclaration: true # false
-  AfterStruct:     true # false
-  AfterUnion:      true # false
-  AfterExternBlock: true # false
-  BeforeCatch:     true # false
-  BeforeElse:      true # false
-  IndentBraces:    true # false
+
+# Multiline string handling - forces line breaks before multiline strings
+# for better version control and readability
+AlwaysBreakBeforeMultilineStrings: true
+
+# Template declaration formatting - 'Yes' ensures template parameters
+# are clearly separated for complex template declarations
+AlwaysBreakTemplateDeclarations: Yes
+
+# =============================================================================
+# PARAMETER AND ARGUMENT PACKING
+# =============================================================================
+# Controls how function parameters and arguments are grouped
+
+# Argument packing disabled - each argument gets adequate space
+# Improves readability for function calls with multiple arguments
+BinPackArguments: false
+
+# Parameter packing disabled - each parameter is clearly defined
+# Essential for function declarations with multiple parameters
+BinPackParameters: false
+
+# Constructor initializer packing strategy
+# 'BinPack' allows multiple initializers per line when appropriate
+PackConstructorInitializers: BinPack
+
+# =============================================================================
+# BRACE WRAPPING CONFIGURATION
+# =============================================================================
+# Comprehensive brace placement rules for maximum readability
+
+# Custom brace wrapping for complete control over code structure
+BreakBeforeBraces: Custom
+BraceWrapping:
+  # Case label braces - each case gets its own clear block
+  AfterCaseLabel: true
+  # Class definition braces - clear separation of class boundaries
+  AfterClass: true
+  # Control statement braces - ensures all control flow is explicit
+  AfterControlStatement: Always
+  # Enum definition braces - clear enumeration boundaries
+  AfterEnum: true
+  # Function definition braces - clear function boundaries
+  AfterFunction: true
+  # Namespace braces - clear namespace scope definition
+  AfterNamespace: true
+  # Objective-C declaration braces (for mixed codebases)
+  AfterObjCDeclaration: true
+  # Struct definition braces - clear structure boundaries
+  AfterStruct: true
+  # Union definition braces - clear union scope
+  AfterUnion: true
+  # External block braces (extern "C" blocks)
+  AfterExternBlock: true
+  # Exception handling - catch blocks clearly separated
+  BeforeCatch: true
+  # Conditional else blocks - clear separation of logic paths
+  BeforeElse: true
+  # Lambda body braces - consistent with function formatting
+  BeforeLambdaBody: true
+  # While loop continuation (do-while) - clear loop structure
+  BeforeWhile: true
+  # Brace indentation disabled - braces align with their scope
+  IndentBraces: false
+  # Empty function formatting - provides placeholder structure
   SplitEmptyFunction: true
+  # Empty record formatting - maintains consistent structure
   SplitEmptyRecord: true
+  # Empty namespace formatting - preserves namespace structure
   SplitEmptyNamespace: true
-BreakBeforeBinaryOperators: None
-BreakBeforeBraces: Allman # Attach
-BreakBeforeInheritanceComma: false
+
+# =============================================================================
+# OPERATOR AND BREAKING CONFIGURATION
+# =============================================================================
+# Rules for breaking expressions and operator placement
+
+# Binary operator placement - 'NonAssignment' breaks before operators
+# except assignments, improving expression readability
+BreakBeforeBinaryOperators: NonAssignment
+
+# Concept declaration formatting - 'Always' ensures concept clarity
+# Essential for C++20 concepts-based code
+BreakBeforeConceptDeclarations: Always
+
+# Ternary operator formatting - break before '?' and ':' for clarity
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializersBeforeComma: false
+
+# Constructor initializer list formatting
+# 'BeforeColon' provides clear separation of initialization logic
 BreakConstructorInitializers: BeforeColon
+
+# Inheritance list formatting - 'BeforeColon' clarifies inheritance structure
+BreakInheritanceList: BeforeColon
+
+# Java field annotation handling (for mixed language projects)
 BreakAfterJavaFieldAnnotations: false
+
+# String literal breaking - allows breaking long string literals
+# for better source code management
 BreakStringLiterals: true
-ColumnLimit:     80
-CommentPragmas:  '^ IWYU pragma:'
+
+# =============================================================================
+# COLUMN AND LINE LIMITS
+# =============================================================================
+# Defines the maximum line length and related formatting rules
+
+# Modern column limit - 100 characters accommodates modern wide displays
+# while maintaining readability on various screen sizes
+ColumnLimit: 100
+
+# Comment pragma patterns - defines special comment handling
+# Supports IWYU (Include What You Use) and linting directives
+CommentPragmas: "^ IWYU pragma:|^ NOLINT"
+
+# Namespace compaction disabled - maintains clear namespace structure
 CompactNamespaces: false
+
+# =============================================================================
+# CONSTRUCTOR AND INITIALIZER CONFIGURATION
+# =============================================================================
+# Specialized formatting for C++ constructors and member initialization
+
+# Constructor initializer formatting - disabled for consistent line breaking
+# Allows natural flow rather than forcing all-or-one formatting
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
+
+# Constructor initializer indentation - 4 spaces for clear hierarchy
 ConstructorInitializerIndentWidth: 4
+
+# Continuation line indentation - 4 spaces for wrapped lines
 ContinuationIndentWidth: 4
+
+# C++11 braced list formatting - modern initialization syntax support
 Cpp11BracedListStyle: true
+
+# =============================================================================
+# POINTER AND REFERENCE ALIGNMENT
+# =============================================================================
+# Consistent pointer and reference declaration formatting
+
+# Pointer alignment derivation disabled - uses explicit setting
 DerivePointerAlignment: false
-DisableFormat:   false
+
+# Pointer alignment - 'Left' places asterisk with type name
+# Example: int* ptr; rather than int *ptr;
+PointerAlignment: Left
+
+# Reference alignment - 'Left' places ampersand with type name
+# Example: int& ref; rather than int &ref;
+ReferenceAlignment: Left
+
+# =============================================================================
+# FORMATTING CONTROL AND BEHAVIOR
+# =============================================================================
+# Global formatting behavior and special case handling
+
+# Format enabling - formatting is active for all specified files
+DisableFormat: false
+
+# Empty lines after access modifier control
+# 'Never' prevents unnecessary whitespace after public/private/protected
+EmptyLineAfterAccessModifier: Never
+
+# Empty lines before access modifier control
+# 'LogicalBlock' adds spacing only when it improves logical separation
+EmptyLineBeforeAccessModifier: LogicalBlock
+
+# Experimental bin packing detection disabled - uses explicit settings
 ExperimentalAutoDetectBinPacking: false
+
+# Namespace comment generation - automatically adds closing comments
+# for namespaces (e.g., } // namespace MyNamespace)
 FixNamespaceComments: true
-ForEachMacros:   
+
+# =============================================================================
+# MACRO AND SPECIAL CONSTRUCT CONFIGURATION
+# =============================================================================
+# Handling of preprocessor macros and special language constructs
+
+# Loop iteration macros - defines which macros are treated as foreach loops
+# Supports common iteration macros from various libraries
+ForEachMacros:
   - foreach
   - Q_FOREACH
   - BOOST_FOREACH
-IncludeBlocks:   Preserve
-IncludeCategories: 
-  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
-    Priority:        2
-  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
-    Priority:        3
-  - Regex:           '.*'
-    Priority:        1
-IncludeIsMainRegex: '(Test)?$'
-IndentCaseLabels: true # false
-IndentPPDirectives: None
-IndentWidth:   4  #2
+  - RANGES_FOR
+  - FOREACH
+
+# Conditional macros - defines which macros are treated as if statements
+IfMacros:
+  - KJ_IF_MAYBE
+
+# Statement attribute macros - macros that act like statement attributes
+StatementAttributeLikeMacros:
+  - Q_EMIT
+
+# Statement macros - macros that are treated as complete statements
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+
+# Type name macros - macros that define or manipulate type names
+TypenameMacros:
+  - STACK_OF
+  - LIST
+
+# =============================================================================
+# INCLUDE DIRECTIVE CONFIGURATION
+# =============================================================================
+# Comprehensive include organization for maintainable header structure
+
+# Include block organization - 'Regroup' reorganizes includes by category
+IncludeBlocks: Regroup
+
+# Include categorization system - defines priority-based grouping
+# Creates logical separation between different types of includes
+IncludeCategories:
+  # Category 1: Main header files (highest priority)
+  # Project-specific headers in quotes
+  - Regex: '^".*\.h(pp)?\"$'
+    Priority: 1
+    SortPriority: 0
+    CaseSensitive: false
+  
+  # Category 2: System headers with extensions
+  # Standard C++ headers like <iostream.h> or <stdio.h>
+  - Regex: '^<.*\.h(pp)?>$'
+    Priority: 2
+    SortPriority: 0
+    CaseSensitive: false
+  
+  # Category 3: Standard library headers
+  # Modern C++ standard library headers like <iostream>, <vector>
+  - Regex: "^<.*>$"
+    Priority: 3
+    SortPriority: 0
+    CaseSensitive: false
+  
+  # Category 4: Third-party library headers
+  # Common third-party libraries used in professional development
+  - Regex: '^"(gtest|gmock|benchmark|boost|fmt|spdlog|nlohmann)/'
+    Priority: 4
+    SortPriority: 0
+    CaseSensitive: false
+  
+  # Category 5: All other includes (fallback)
+  - Regex: ".*"
+    Priority: 5
+    SortPriority: 0
+    CaseSensitive: false
+
+# Main header detection pattern - identifies the primary header for source files
+IncludeIsMainRegex: "(Test)?$"
+
+# Main source detection pattern - currently empty (uses default behavior)
+IncludeIsMainSourceRegex: ""
+
+# =============================================================================
+# INDENTATION CONFIGURATION
+# =============================================================================
+# Comprehensive indentation rules for consistent code structure
+
+# Access modifier indentation - disabled to maintain class structure clarity
+IndentAccessModifiers: false
+
+# Case label indentation - enabled for clear switch statement structure
+IndentCaseLabels: true
+
+# Case block indentation - disabled to prevent double indentation
+IndentCaseBlocks: false
+
+# Goto label indentation - enabled for rare but necessary goto usage
+IndentGotoLabels: true
+
+# Preprocessor directive indentation - 'BeforeHash' maintains hierarchy
+# while keeping the hash symbol recognizable
+IndentPPDirectives: BeforeHash
+
+# Extern block indentation - 'AfterExternBlock' indents extern "C" contents
+IndentExternBlock: AfterExternBlock
+
+# Requires clause indentation - disabled for natural template formatting
+IndentRequires: false
+
+# Standard indentation width - 4 spaces for optimal readability
+# Provides good visual hierarchy without excessive width
+IndentWidth: 4
+
+# Wrapped function name indentation - disabled for clean continuation
 IndentWrappedFunctionNames: false
-JavaScriptQuotes: Leave
-JavaScriptWrapImports: true
-KeepEmptyLinesAtTheStartOfBlocks: true
-MacroBlockBegin: ''
-MacroBlockEnd:   ''
-MaxEmptyLinesToKeep: 1
+
+# =============================================================================
+# INSERTION AND MODIFICATION CONTROLS
+# =============================================================================
+# Controls for automatic code modification features
+
+# Automatic brace insertion - disabled to preserve explicit code structure
+InsertBraces: false
+
+# Trailing comma insertion - disabled to maintain manual control
+InsertTrailingCommas: None
+
+# Numeric literal formatting - adds separators for large numbers
+# Improves readability of binary, decimal, and hexadecimal literals
+IntegerLiteralSeparator:
+  Binary: 4    # Every 4 binary digits: 0b1010_1100
+  Decimal: 3   # Every 3 decimal digits: 1,000,000
+  Hex: 2       # Every 2 hex digits: 0xFF_AB_CD
+
+# =============================================================================
+# EMPTY LINE AND STRUCTURE PRESERVATION
+# =============================================================================
+# Controls for managing whitespace and code structure
+
+# Empty lines at block start - disabled to prevent unnecessary whitespace
+KeepEmptyLinesAtTheStartOfBlocks: false
+
+# Lambda body indentation - 'Signature' aligns with lambda signature
+# Provides consistent indentation for lambda expressions
+LambdaBodyIndentation: Signature
+
+# Line ending format - 'DeriveLF' uses appropriate line endings for platform
+LineEnding: DeriveLF
+
+# Macro block definition - currently undefined (uses default behavior)
+MacroBlockBegin: ""
+MacroBlockEnd: ""
+
+# Maximum consecutive empty lines - 2 lines for logical separation
+# Prevents excessive whitespace while allowing breathing room
+MaxEmptyLinesToKeep: 2
+
+# =============================================================================
+# NAMESPACE CONFIGURATION
+# =============================================================================
+# Namespace formatting and indentation rules
+
+# Namespace content indentation - 'None' prevents unnecessary indentation
+# Conserves horizontal space while maintaining clear namespace boundaries
 NamespaceIndentation: None
+
+# Custom namespace macros - defines macros that create namespace-like scopes
+NamespaceMacros:
+  - NAMESPACE_BEGIN
+  - NAMESPACE_END
+
+# =============================================================================
+# OBJECTIVE-C CONFIGURATION
+# =============================================================================
+# Objective-C specific formatting (for mixed language projects)
+
+# Objective-C block indentation - 2 spaces for Objective-C conventions
 ObjCBlockIndentWidth: 2
+
+# Objective-C nested block parameters - break for readability
+ObjCBreakBeforeNestedBlockParam: true
+
+# Objective-C property spacing - no space after @property
 ObjCSpaceAfterProperty: false
+
+# Objective-C protocol list spacing - space before angle brackets
 ObjCSpaceBeforeProtocolList: true
+
+# =============================================================================
+# PENALTY SYSTEM CONFIGURATION
+# =============================================================================
+# Advanced line breaking penalty system for optimal formatting decisions
+
+# Assignment breaking penalty - moderate penalty encourages keeping
+# assignments together when possible
 PenaltyBreakAssignment: 2
-PenaltyBreakBeforeFirstCallParameter: 19
+
+# First parameter breaking penalty - low penalty allows natural wrapping
+PenaltyBreakBeforeFirstCallParameter: 1
+
+# Comment breaking penalty - high penalty preserves comment integrity
 PenaltyBreakComment: 300
+
+# Template parameter breaking penalty - moderate penalty for readability
 PenaltyBreakFirstLessLess: 120
+
+# Parenthesis breaking penalty - no penalty allows natural wrapping
+PenaltyBreakOpenParenthesis: 0
+
+# String literal breaking penalty - very high penalty preserves string integrity
 PenaltyBreakString: 1000
+
+# Template declaration breaking penalty - low penalty for complex templates
+PenaltyBreakTemplateDeclaration: 10
+
+# Character limit excess penalty - maximum penalty enforces column limit
 PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 60
-PointerAlignment: Left # Right
-ReflowComments:  true
-SortIncludes:    true
+
+# Indented whitespace penalty - no penalty allows natural indentation
+PenaltyIndentedWhitespace: 0
+
+# Return type line penalty - moderate penalty prefers same-line return types
+PenaltyReturnTypeOnItsOwnLine: 200
+
+# =============================================================================
+# QUALIFIER AND TYPE CONFIGURATION
+# =============================================================================
+# Consistent qualifier and type formatting
+
+# Qualifier alignment - 'Left' places const/volatile with type
+# Example: const int rather than int const
+QualifierAlignment: Left
+
+# =============================================================================
+# RAW STRING AND EMBEDDED LANGUAGE CONFIGURATION
+# =============================================================================
+# Specialized formatting for raw strings and embedded languages
+
+# Raw string format specifications - defines formatting for different
+# embedded languages within raw string literals
+RawStringFormats:
+  # C++ code in raw strings
+  - Language: Cpp
+    Delimiters:
+      - cc
+      - CC
+      - cpp
+      - Cpp
+      - CPP
+      - "c++"
+      - "C++"
+    CanonicalDelimiter: ""
+    BasedOnStyle: google
+  
+  # Protocol buffer text format
+  - Language: TextProto
+    Delimiters:
+      - pb
+      - PB
+      - proto
+      - PROTO
+    EnclosingFunctions:
+      - EqualsProto
+      - EquivToProto
+      - PARSE_PARTIAL_TEXT_PROTO
+      - PARSE_TEST_PROTO
+      - PARSE_TEXT_PROTO
+      - ParseTextOrDie
+      - ParseTextProtoOrDie
+      - ParseTestProto
+      - ParsePartialTestProto
+    CanonicalDelimiter: pb
+    BasedOnStyle: google
+
+# =============================================================================
+# COMMENT AND TEXT PROCESSING
+# =============================================================================
+# Comment formatting and text processing rules
+
+# Comment reflowing - enabled to maintain consistent comment formatting
+# Automatically wraps long comments to fit within column limits
+ReflowComments: true
+
+# LLVM-style brace removal - disabled to maintain explicit brace structure
+RemoveBracesLLVM: false
+
+# Semicolon removal - disabled to preserve explicit statement termination
+RemoveSemicolon: false
+
+# =============================================================================
+# CODE ORGANIZATION AND SORTING
+# =============================================================================
+# Rules for organizing and sorting various code elements
+
+# Definition block separation - 'Leave' preserves existing spacing decisions
+SeparateDefinitionBlocks: Leave
+
+# Short namespace formatting - allows up to 1 line for short namespaces
+ShortNamespaceLines: 1
+
+# Include sorting - 'CaseSensitive' provides predictable include order
+SortIncludes: CaseSensitive
+
+# Java static import sorting - 'Before' places static imports first
+SortJavaStaticImport: Before
+
+# Using declaration sorting - enabled for consistent using statement order
 SortUsingDeclarations: true
+
+# =============================================================================
+# COMPREHENSIVE SPACING CONFIGURATION
+# =============================================================================
+# Detailed spacing rules for all code constructs
+
+# C-style cast spacing - no space after cast for compact appearance
 SpaceAfterCStyleCast: false
+
+# Logical NOT operator spacing - no space for operator clarity
+SpaceAfterLogicalNot: false
+
+# Template keyword spacing - space after template keyword for readability
 SpaceAfterTemplateKeyword: true
+
+# Pointer qualifier spacing - 'Default' uses language-appropriate spacing
+SpaceAroundPointerQualifiers: Default
+
+# Assignment operator spacing - space before assignment for readability
 SpaceBeforeAssignmentOperators: true
+
+# Case colon spacing - no space before colon for compact case labels
+SpaceBeforeCaseColon: false
+
+# C++11 braced list spacing - no space for compact initialization syntax
+SpaceBeforeCpp11BracedList: false
+
+# Constructor initializer colon spacing - space for clear separation
+SpaceBeforeCtorInitializerColon: true
+
+# Inheritance colon spacing - space for clear inheritance indication
+SpaceBeforeInheritanceColon: true
+
+# Parentheses spacing - 'ControlStatements' adds space for control flow only
 SpaceBeforeParens: ControlStatements
+
+# Detailed parentheses spacing configuration
+SpaceBeforeParensOptions:
+  AfterControlStatements: true      # if, while, for, etc.
+  AfterForeachMacros: true         # foreach-style macros
+  AfterFunctionDefinitionName: false   # function definitions
+  AfterFunctionDeclarationName: false  # function declarations
+  AfterIfMacros: true              # if-like macros
+  AfterOverloadedOperator: false   # operator overloads
+  AfterRequiresInClause: false     # requires clauses
+  AfterRequiresInExpression: false # requires expressions
+  BeforeNonEmptyParentheses: false # general parentheses
+
+# Range-based for loop colon spacing - space for readability
+SpaceBeforeRangeBasedForLoopColon: true
+
+# Square bracket spacing - no space for compact array access
+SpaceBeforeSquareBrackets: false
+
+# Empty block spacing - no space for compact empty blocks
+SpaceInEmptyBlock: false
+
+# Empty parentheses spacing - no space for compact function calls
 SpaceInEmptyParentheses: false
-SpacesBeforeTrailingComments: 1
-SpacesInAngles:  false
-SpacesInContainerLiterals: true
+
+# Trailing comment spacing - 2 spaces for clear comment separation
+SpacesBeforeTrailingComments: 2
+
+# Angle bracket spacing - 'Never' for compact template syntax
+SpacesInAngles: Never
+
+# Container literal spacing - no space for compact initialization
+SpacesInContainerLiterals: false
+
+# C-style cast parentheses spacing - no space for compact casts
 SpacesInCStyleCastParentheses: false
+
+# Conditional statement spacing - no space for compact conditions
+SpacesInConditionalStatement: false
+
+# Line comment prefix spacing - allows natural comment formatting
+SpacesInLineCommentPrefix:
+  Minimum: 1    # At least one space after //
+  Maximum: -1   # No maximum limit
+
+# General parentheses spacing - no space for compact expressions
 SpacesInParentheses: false
+
+# Square bracket spacing - no space for compact array operations
 SpacesInSquareBrackets: false
-Standard:        Cpp11
-TabWidth:        8
-UseTab:          Never
+
+# =============================================================================
+# LANGUAGE STANDARD AND TAB CONFIGURATION
+# =============================================================================
+# Core language and indentation settings
+
+# C++ language standard - C++20 for modern language feature support
+Standard: c++20
+
+# Tab width definition - 4 characters for consistent display across editors
+TabWidth: 4
+
+# Tab usage - 'Never' uses spaces only for universal compatibility
+# Ensures consistent appearance across all editors and platforms
+UseTab: Never
+
+# =============================================================================
+# WHITESPACE SENSITIVE MACRO CONFIGURATION
+# =============================================================================
+# Special handling for macros that are sensitive to whitespace changes
+
+# Whitespace-sensitive macros - macros where spacing changes behavior
+# These macros will not be reformatted to preserve their functionality
+WhitespaceSensitiveMacros:
+  - STRINGIZE        # String creation macros
+  - PP_STRINGIZE     # Preprocessor stringization
+  - BOOST_PP_STRINGIZE  # Boost preprocessor stringization
+  - NS_SWIFT_NAME    # Swift interoperability macros
+  - CF_SWIFT_NAME    # Core Foundation Swift names
+
+# =============================================================================
+# END OF CONFIGURATION
+# =============================================================================
+#
+# This configuration provides a comprehensive, professional formatting
+# standard that balances readability, maintainability, and modern C++
+# best practices. All settings have been carefully chosen to create
+# consistent, clean code that is easy to read, debug, and maintain.
+#
+# To use this configuration:
+# 1. Save this file as '.clang-format' in your project root
+# 2. Ensure clang-format 15.0 or later is installed
+# 3. Run: clang-format -i *.cpp *.h (or integrate with your IDE)
+#
+# For team adoption:
+# - Share this file in your version control system
+# - Configure your CI/CD pipeline to check formatting
+# - Set up IDE integration for automatic formatting on save
+#
+# =============================================================================
