@@ -18,8 +18,11 @@ set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 # Process the template file, replacing any @VAR@ placeholders with CMake variables
 configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
 
-# Create the 'docs' target that users can build explicitly
-add_custom_target(docs
+# Create the documentation target, using DOCS_TARGET_NAME if set, otherwise default to 'docs'
+if(NOT DEFINED DOCS_TARGET_NAME)
+    set(DOCS_TARGET_NAME "docs")
+endif()
+add_custom_target(${DOCS_TARGET_NAME}
     COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
     COMMENT "Generating API documentation with Doxygen"

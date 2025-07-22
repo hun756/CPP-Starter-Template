@@ -149,6 +149,8 @@ endif()
 # Build documentation if Doxygen is available
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
+    # Set the documentation target name for the docs module
+    set(DOCS_TARGET_NAME "${PROJECT_NAME}_docs")
     add_subdirectory(docs)
 endif()
 
