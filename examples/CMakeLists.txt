@@ -1,48 +1,54 @@
-#==============================================================================
+# ============================================================================
 # Example Applications
-#==============================================================================
-# This file builds all the example applications that demonstrate
-# how to use your library. Each example is built as a standalone
-# executable that links against your main library.
+# ============================================================================
+# This file builds all example programs that demonstrate how to use your library.
+# Each example is built as a standalone executable linked to the main library.
+#
+# Adding a new example:
+#   Simply create a new .cpp file in this directory (e.g., advanced_usage.cpp)
+#   and it will be automatically built as an executable named "advanced_usage".
+#   No need to modify this CMakeLists.txt file.
+#
+# Running examples:
+#   ./build/debug/bin/example1
+#   ./build/debug/bin/example2
+# ============================================================================
 
-# The GLOB command finds all .cpp files in the current directory
-# Note: For production projects, it's generally better to list files
-# explicitly for more predictable builds, but for examples, GLOB
-# can be convenient as you add new examples without updating CMake.
-file(GLOB EXAMPLE_SOURCES "*.cpp")
+# Find all example source files in this directory.
+# CONFIGURE_DEPENDS ensures CMake re-runs when you add/remove example files,
+# so you never have to manually update this file.
+file(GLOB EXAMPLE_SOURCES CONFIGURE_DEPENDS "*.cpp")
 
-# For each example source file we found:
+# Build each example file as a separate executable
 foreach(example_source ${EXAMPLE_SOURCES})
-    # Extract just the filename without extension (e.g., "basic_usage" from "basic_usage.cpp")
-    # This becomes our executable name
+    # Extract filename without extension to use as the executable name
+    # e.g., "example1.cpp" → "example1"
     get_filename_component(example_name ${example_source} NAME_WE)
 
-    # Create an executable target for this example
+    # Create an executable for this example
     add_executable(${example_name} ${example_source})
 
-    # Link the example to our main library
-    # not for anything that might link to this example (which is unlikely anyway)
-    # Using the :: syntax accesses the library through its ALIAS target
+    # Link to our project library.
+    # PRIVATE means these dependencies are only for building this example,
+    # not for anything that might link to it (which is unlikely for examples).
+    # The :: syntax uses the ALIAS target, which works the same way
+    # as if you had used find_package() to find this library.
     target_link_libraries(${example_name}
         PRIVATE
         ${PROJECT_NAME}::${PROJECT_NAME}
     )
 
-    # Apply the same compiler warnings to our examples as we do to the main library
-    # This ensures consistent code quality across the project
+    # Apply the same strict compiler warnings for consistent code quality
     target_compile_warnings(${example_name} PRIVATE)
 
-    # If sanitizers are enabled in the main build, also enable them for examples
-    # This helps catch memory/undefined behavior issues in example code too
+    # Enable sanitizers for examples too — good practice to catch issues
+    # in example code before users copy it into their own projects
     if(ENABLE_SANITIZERS)
         target_enable_sanitizers(${example_name})
     endif()
 
-    # You could add example-specific settings here, such as:
-    # - Custom compiler definitions
-    # - Example-specific include directories
-    # - Additional dependencies only needed by certain examples
+    # You can add example-specific settings here, such as:
+    # - target_compile_definitions(${example_name} PRIVATE MY_DEFINE=1)
+    # - target_include_directories(${example_name} PRIVATE extra/path)
+    # - target_link_libraries(${example_name} PRIVATE some_other_lib)
 endforeach()
-
-# Optional: Set example-specific properties or configurations
-# set_target_properties(specific_example PROPERTIES ...)

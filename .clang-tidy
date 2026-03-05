@@ -1,23 +1,126 @@
+# ============================================================================
+# Clang-Tidy Configuration
+# ============================================================================
+#
+# This file configures clang-tidy, a powerful static analysis tool that
+# catches bugs, style issues, and modernization opportunities.
+#
+# Usage:
+#   cmake --preset debug -DENABLE_CLANG_TIDY=ON
+#   cmake --build --preset debug
+#
+# Or standalone:
+#   clang-tidy -p build/debug src/*.cpp include/**/*.h
+#
+# Suppressing a warning in code:
+#   // NOLINTNEXTLINE(check-name)
+#   // NOLINT(check-name)
+#
+# ============================================================================
 ---
-Checks: 'clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trailing-return-type,-llvm*'
+Checks: >
+  *,
+  -abseil-*,
+  -altera-*,
+  -android-*,
+  -fuchsia-*,
+  -google-*,
+  -llvm*,
+  -zircon-*,
+  -modernize-use-trailing-return-type,
+  -readability-else-after-return,
+  -readability-static-accessed-through-instance,
+  -readability-avoid-const-params-in-decls,
+  -misc-non-private-member-variables-in-classes,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
+  -misc-no-recursion,
+  -readability-function-cognitive-complexity,
+  -bugprone-easily-swappable-parameters
+
 WarningsAsErrors: ''
-HeaderFilterRegex: ''
-AnalyzeTemporaryDtors: false
+
+HeaderFilterRegex: '.*include/myproject/.*'
+
 FormatStyle: file
+
 CheckOptions:
+  # ── Naming Conventions ──────────────────────────────────────────────
+  # These enforce consistent naming across the codebase.
+  # Customize these to match your team's preferred style.
+
   - key: readability-identifier-naming.NamespaceCase
     value: lower_case
+
   - key: readability-identifier-naming.ClassCase
     value: CamelCase
+
   - key: readability-identifier-naming.StructCase
     value: CamelCase
+
   - key: readability-identifier-naming.EnumCase
     value: CamelCase
+
+  - key: readability-identifier-naming.EnumConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantPrefix
+    value: 'k'
+
   - key: readability-identifier-naming.FunctionCase
     value: camelBack
+
   - key: readability-identifier-naming.VariableCase
     value: camelBack
+
+  - key: readability-identifier-naming.ParameterCase
+    value: camelBack
+
+  - key: readability-identifier-naming.MemberCase
+    value: camelBack
+
   - key: readability-identifier-naming.PrivateMemberSuffix
     value: _
+
+  - key: readability-identifier-naming.ProtectedMemberSuffix
+    value: _
+
   - key: readability-identifier-naming.GlobalConstantCase
     value: UPPER_CASE
+
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConstexprVariablePrefix
+    value: 'k'
+
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: CamelCase
+
+  - key: readability-identifier-naming.TypeAliasCase
+    value: CamelCase
+
+  # ── Modernize Settings ──────────────────────────────────────────────
+  - key: modernize-use-override.AllowOverrideAndFinal
+    value: 'false'
+
+  - key: modernize-use-nullptr.NullMacros
+    value: 'NULL'
+
+  - key: modernize-loop-convert.MinConfidence
+    value: 'reasonable'
+
+  # ── Readability Settings ────────────────────────────────────────────
+  - key: readability-braces-around-statements.ShortStatementLines
+    value: '0'
+
+  - key: readability-magic-numbers.IgnoredIntegerValues
+    value: '0;1;2;3;4;5;8;10;16;32;64;100;128;255;256;512;1024'
+
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: '0.0;0.5;1.0;2.0;100.0'
+
+  # ── Performance Settings ────────────────────────────────────────────
+  - key: performance-move-const-arg.CheckTriviallyCopyableMove
+    value: 'false'
+
+  # ── Misc Settings ───────────────────────────────────────────────────
+  - key: misc-include-cleaner.IgnoreHeaders
+    value: 'myproject/.*'

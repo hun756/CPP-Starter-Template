@@ -135,6 +135,16 @@ node_modules/
 *.cache
 *.patch
 
+### Coverage Reports ###
+coverage.info
+coverage_filtered.info
+coverage_report/
+
+### CMake Presets ###
+# Build and install directories created by presets
+install/
+compile_commands.json
+
 ### Version Control ###
 # Merge conflicts
 *.orig
