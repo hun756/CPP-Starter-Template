@@ -1,40 +1,25 @@
-# This module automatically downloads and integrates Google Benchmark into your project.
-# It handles configuration, compiler options, and makes the library available to your targets.
+# ============================================================================
+# DEPRECATED: This file has been superseded by Dependencies.cmake
+# ============================================================================
+#
+# Google Benchmark is now managed through cmake/Dependencies.cmake which
+# provides a unified dependency management system with these improvements:
+#   - Updated to Google Benchmark v1.9.1
+#   - GIT_SHALLOW for faster downloads
+#   - FIND_PACKAGE_ARGS to prefer system-installed versions
+#   - Automatic compiler warning suppression for third-party code
+#
+# If you were including this file directly, update your CMakeLists.txt:
+#   OLD: include(${CMAKE_SOURCE_DIR}/cmake/FindGBenchmark.cmake)
+#   NEW: include(${CMAKE_SOURCE_DIR}/cmake/Dependencies.cmake)
+#        setup_googlebenchmark()
+#
+# This file is kept for backward compatibility and will be removed in a
+# future release.
+# ============================================================================
 
-include(FetchContent)
+message(DEPRECATION "FindGBenchmark.cmake is deprecated. Use Dependencies.cmake instead: "
+    "include(\${CMAKE_SOURCE_DIR}/cmake/Dependencies.cmake) and call setup_googlebenchmark()")
 
-# Declare what we want to fetch - Google Benchmark in this case
-FetchContent_Declare(
-    googlebenchmark
-    GIT_REPOSITORY https://github.com/google/benchmark.git
-    GIT_TAG v1.7.1
-)
-
-# Make CMake show us download progress (normally hidden)
-set(FETCHCONTENT_QUIET OFF)
-
-# Control benchmark's behavior through CMake options
-# The CACHE BOOL "..." FORCE syntax ensures these settings override any defaults
-
-# Disable benchmark's internal tests - we just want the library
-set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "Disable benchmark testing" FORCE)
-
-# Prevent benchmark from installing itself system-wide
-set(BENCHMARK_ENABLE_INSTALL OFF CACHE BOOL "Disable benchmark install" FORCE)
-
-# Don't treat warnings as errors - helps with cross-platform compatibility
-set(BENCHMARK_ENABLE_WERROR OFF CACHE BOOL "Disable treating warnings as errors" FORCE)
-
-# Actually make the content available to our build system
-FetchContent_MakeAvailable(googlebenchmark)
-
-# Only apply these settings if benchmark target exists
-if(TARGET benchmark)
-  if(MSVC)
-    target_compile_options(benchmark PRIVATE /W3 /WX-)
-    target_compile_options(benchmark_main PRIVATE /W3 /WX-)
-  else()
-    target_compile_options(benchmark PRIVATE -Wall -Wextra -Wno-error -Wno-invalid-offsetof -Wno-error=invalid-offsetof)
-    target_compile_options(benchmark_main PRIVATE -Wall -Wextra -Wno-error -Wno-invalid-offsetof -Wno-error=invalid-offsetof)
-  endif()
-endif()
+include(${CMAKE_CURRENT_LIST_DIR}/Dependencies.cmake)
+setup_googlebenchmark()

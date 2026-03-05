@@ -1,18 +1,25 @@
-include(FetchContent)
+# ============================================================================
+# DEPRECATED: This file has been superseded by Dependencies.cmake
+# ============================================================================
+#
+# Google Test is now managed through cmake/Dependencies.cmake which provides
+# a unified dependency management system with these improvements:
+#   - Updated to Google Test v1.15.2
+#   - GIT_SHALLOW for faster downloads
+#   - FIND_PACKAGE_ARGS to prefer system-installed versions
+#   - GMock support enabled by default
+#
+# If you were including this file directly, update your CMakeLists.txt:
+#   OLD: include(${CMAKE_SOURCE_DIR}/cmake/FindGTest.cmake)
+#   NEW: include(${CMAKE_SOURCE_DIR}/cmake/Dependencies.cmake)
+#        setup_googletest()
+#
+# This file is kept for backward compatibility and will be removed in a
+# future release.
+# ============================================================================
 
-# Define where to get Google Test from
-FetchContent_Declare(
-    googletest
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG release-1.12.1
-)
+message(DEPRECATION "FindGTest.cmake is deprecated. Use Dependencies.cmake instead: "
+    "include(\${CMAKE_SOURCE_DIR}/cmake/Dependencies.cmake) and call setup_googletest()")
 
-# Show download progress (useful for transparency)
-set(FETCHCONTENT_QUIET OFF)
-
-# Force Google Test to use the same runtime library as your project
-# (Prevents runtime library mismatches on Windows)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-# Actually retrieve and make the dependency available
-FetchContent_MakeAvailable(googletest)
+include(${CMAKE_CURRENT_LIST_DIR}/Dependencies.cmake)
+setup_googletest()
