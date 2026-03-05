@@ -19,7 +19,7 @@ jobs:
     name: Format & Lint Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install clang-format
         run: sudo apt-get install -y clang-format-17
@@ -47,7 +47,7 @@ jobs:
             preset: ci-linux-clang
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install compiler
         run: |
@@ -75,7 +75,7 @@ jobs:
     runs-on: macos-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Configure
         run: cmake --preset ci-macos-clang
@@ -91,7 +91,7 @@ jobs:
     runs-on: windows-latest
     needs: lint
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Configure
         run: cmake --preset ci-windows-msvc
@@ -107,7 +107,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-linux
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install dependencies
         run: |
@@ -155,7 +155,7 @@ jobs:
             flags: "-DENABLE_SANITIZER_ADDRESS=OFF -DENABLE_SANITIZER_UNDEFINED=OFF -DENABLE_SANITIZER_THREAD=ON"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install compiler
         run: |
