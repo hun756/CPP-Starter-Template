@@ -1,0 +1,178 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  BUILD_TYPE: Debug
+
+jobs:
+  lint:
+    name: Format & Lint Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install clang-format
+        run: sudo apt-get install -y clang-format-17
+
+      - name: Check formatting
+        run: |
+          find include src test bench examples -name '*.cpp' -o -name '*.h' -o -name '*.hpp' | \
+            xargs clang-format-17 --dry-run --Werror
+
+  build-linux:
+    name: Linux (${{ matrix.compiler }})
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - compiler: gcc
+            cc: gcc-13
+            cxx: g++-13
+            preset: ci-linux-gcc
+          - compiler: clang
+            cc: clang-17
+            cxx: clang++-17
+            preset: ci-linux-clang
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install compiler
+        run: |
+          sudo apt-get update
+          if [ "${{ matrix.compiler }}" = "gcc" ]; then
+            sudo apt-get install -y g++-13
+          else
+            sudo apt-get install -y clang-17
+          fi
+
+      - name: Configure
+        env:
+          CC: ${{ matrix.cc }}
+          CXX: ${{ matrix.cxx }}
+        run: cmake --preset ${{ matrix.preset }}
+
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }} -j$(nproc)
+
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }}
+
+  build-macos:
+    name: macOS (AppleClang)
+    runs-on: macos-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset ci-macos-clang
+
+      - name: Build
+        run: cmake --build --preset ci-macos-clang -j$(sysctl -n hw.logicalcpu)
+
+      - name: Test
+        run: ctest --preset ci-macos-clang
+
+  build-windows:
+    name: Windows (MSVC)
+    runs-on: windows-latest
+    needs: lint
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake --preset ci-windows-msvc
+
+      - name: Build
+        run: cmake --build --preset ci-windows-msvc
+
+      - name: Test
+        run: ctest --preset ci-windows-msvc
+
+  coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+    needs: build-linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y lcov g++-13
+
+      - name: Configure
+        env:
+          CC: gcc-13
+          CXX: g++-13
+        run: cmake --preset coverage
+
+      - name: Build
+        run: cmake --build --preset coverage -j$(nproc)
+
+      - name: Run tests
+        run: ctest --preset coverage
+
+      - name: Generate coverage report
+        run: |
+          cd build/coverage
+          lcov --capture --directory . --output-file coverage.info --rc lcov_branch_coverage=1
+          lcov --remove coverage.info \
+            "*/test/*" "*/bench/*" "*/examples/*" "*/_deps/*" "*/usr/*" \
+            --output-file coverage_filtered.info --rc lcov_branch_coverage=1
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          file: build/coverage/coverage_filtered.info
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  sanitizers:
+    name: Sanitizer (${{ matrix.sanitizer }})
+    runs-on: ubuntu-latest
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - sanitizer: address
+            flags: "-DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_UNDEFINED=ON"
+          - sanitizer: thread
+            flags: "-DENABLE_SANITIZER_ADDRESS=OFF -DENABLE_SANITIZER_UNDEFINED=OFF -DENABLE_SANITIZER_THREAD=ON"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang-17
+
+      - name: Configure
+        env:
+          CC: clang-17
+          CXX: clang++-17
+        run: |
+          cmake -B build -DCMAKE_BUILD_TYPE=Debug \
+            -DBUILD_TESTS=ON -DENABLE_SANITIZERS=ON \
+            ${{ matrix.flags }}
+
+      - name: Build
+        run: cmake --build build -j$(nproc)
+
+      - name: Test
+        run: cd build && ctest --output-on-failure --timeout 120
