@@ -135,7 +135,7 @@ jobs:
             --output-file coverage_filtered.info --rc lcov_branch_coverage=1
 
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           file: build/coverage/coverage_filtered.info
           fail_ci_if_error: false
